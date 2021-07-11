@@ -4,7 +4,14 @@ Public data of All educational institute around the World
 ### Resource used
 
 * [x] https://codeforces.com/ratings Organizarion list of codeforces.com
-* [x] https://www.4icu.org/reviews/index2.htm A-Z University list. [API]
-* [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search.
-* [x] https://banbeis.portal.gov.bd/ Educational institute of Banngladesh.
-* [x] https://developer.schooldigger.com/ U.S. K-12 school and district data. [API]
+* [x] https://www.4icu.org/reviews/index2.htm A-Z University list.
+* [x] https://banbeis.portal.gov.bd/ Educational institutes of Banngladesh.
+* [x] https://www.international-schools-database.com/
+
+### Candidate probable public API's
+
+* [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search. [Public API]
+* [x] https://developer.schooldigger.com/ U.S. K-12 schools and district data.
+* [x] https://www.greatschools.org/api/ U.S. K-12 schools database.
+* [x] https://educationdata.urban.org/documentation/ U.S schools
+* [x] https://collegescorecard.ed.gov/data/documentation/ U.S
