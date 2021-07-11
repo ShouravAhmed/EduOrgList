@@ -1,7 +1,7 @@
 # *EduOrgList*
 Public data of All educational institute around the World
 
-### REsource used
+### Resource used
 
 * [x] https://codeforces.com/ratings Organizarion list of codeforces.com
 * [x] https://www.4icu.org/reviews/index2.htm A-Z University list. [API]
