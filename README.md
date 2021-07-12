@@ -16,7 +16,7 @@ Public data of All educational institute around the World
 * [x] https://educationdata.urban.org/documentation/ U.S schools.
 * [x] https://collegescorecard.ed.gov/data/documentation/ U.S data.
 
-most of the available API's are only U.S or U.K based and paid, some allow access limited call.
+most of the available API's are only U.S or U.K based and paid, some allow access with limited call.
 
 ### Where is the data!
 
