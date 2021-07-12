@@ -16,6 +16,10 @@ Public data of All educational institute around the World
 ### Candidate or probable public resource and API's
 
 * [x] https://atcoder.jp/ranking/all?page=1 Organizarion list of atcoder.com user
+* [x] https://github.com/EricTendian/colleges-master-list
+* [x] https://github.com/MLH/mlh-policies/blob/master/schools.csv
+* [x] https://raw.githubusercontent.com/Hipo/university-domains-list/master/world_universities_and_domains.json
+* [x] https://github.com/endSly/world-universities-csv
 * [x] https://www.international-schools-database.com/ Data of all international schools in big cities (can be scraped).
 * [x] https://developer.schooldigger.com/ U.S. K-12 schools and district data.
 * [x] https://www.greatschools.org/api/ U.S. K-12 schools database.
