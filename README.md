@@ -17,3 +17,8 @@ Public data of All educational institute around the World
 * [x] https://collegescorecard.ed.gov/data/documentation/ U.S data.
 
 most of the available API's are only U.S or U.K based and paid, some allow access limited call.
+
+### Where is data!
+
+You can find all data in /EduOrgList/educationalInstituteData.csv
+To update the data, open cforg, codeOrg, uniAZ, bdedu directories and run cforg.py, codeOrg.py, uniAZ.py, bdedu.py
