@@ -8,7 +8,7 @@ Public data of All educational institute around the World
 * [x] https://banbeis.portal.gov.bd/ Educational institutes of Banngladesh.
 * [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search. [Public API]
 
-### Candidate probable public API's
+### Candidate or probable public resource and API's
 
 * [x] https://www.international-schools-database.com/ Data of all international schools in big cities (can be scraped).
 * [x] https://developer.schooldigger.com/ U.S. K-12 schools and district data.
