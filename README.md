@@ -6,8 +6,8 @@ Public data of All educational institute around the World
 * [x] https://codeforces.com/ratings Organizarion list of codeforces.com
 * [x] https://www.4icu.org/reviews/index2.htm A-Z University list.
 * [x] https://banbeis.portal.gov.bd/ Educational institutes of Banngladesh.
-* [x] https://www.international-schools-database.com/ Data of all international schools in big sities.
-* [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search. [Public API] 
+* [x] https://www.international-schools-database.com/ Data of all international schools in big cities.
+* [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search. [Public API]
 
 ### Candidate probable public API's
 
