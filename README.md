@@ -1,4 +1,9 @@
 # *EduOrgList*
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![GitHub license](https://img.shields.io/github/license/ShouravAhmed/EduOrgList.svg)](https://github.com/ShouravAhmed/EduOrgList/blob/main/LICENSE)
+[![GitHub forks](https://img.shields.io/github/forks/ShouravAhmed/EduOrgList.svg?style=social&label=Fork)](https://github.com/ShouravAhmed/EduOrgList)
+[![GitHub stars](https://img.shields.io/github/stars/ShouravAhmed/EduOrgList.svg?style=social&label=Stars)](https://github.com/ShouravAhmed/EduOrgList)
+
 Public data of All educational institute around the World
 
 ### Resource used
