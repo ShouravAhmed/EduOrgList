@@ -18,8 +18,8 @@ Public data of All educational institute around the World
 
 most of the available API's are only U.S or U.K based and paid, some allow access limited call.
 
-### Where is data!
+### Where is the data!
 
-You can find all data in /EduOrgList/educationalInstituteData.csv .
+Currently 60000 data are available. You can find all data in /EduOrgList/educationalInstituteData.csv .
 
 To update the data, open cforg, codeOrg, uniAZ, bdedu directories and run cforg.py, codeOrg.py, uniAZ.py, bdedu.py
