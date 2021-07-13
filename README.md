@@ -1,15 +1,16 @@
-# *EduOrgList*
+# *Educational Organization List*
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![GitHub license](https://img.shields.io/github/license/ShouravAhmed/EduOrgList.svg)](https://github.com/ShouravAhmed/EduOrgList/blob/main/LICENSE)
 [![GitHub forks](https://img.shields.io/github/forks/ShouravAhmed/EduOrgList.svg?style=social&label=Fork)](https://github.com/ShouravAhmed/EduOrgList)
 [![GitHub stars](https://img.shields.io/github/stars/ShouravAhmed/EduOrgList.svg?style=social&label=Stars)](https://github.com/ShouravAhmed/EduOrgList)
 
-Public data of All educational institute around the World
+The purpose of this repository is to provide a solution to collect as much as possible detailed list of public data of all educational institute around the World.
 
-### Resource used
+### Resource used and their details and solution
 
+* [x] https://www.4icu.org/
+  * [https://www.4icu.org/](uniRank) is the leading international higher education directory and search engine featuring reviews and rankings of over 13,800 officially recognized Universities and Colleges in 200 countries. https://www.4icu.org/reviews/index2.htm
 * [x] https://codeforces.com/ratings Organizarion list of codeforces.com
-* [x] https://www.4icu.org/reviews/index2.htm A-Z University list.
 * [x] https://banbeis.portal.gov.bd/ Educational institutes of Banngladesh.
 * [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search. [Public API]
 
