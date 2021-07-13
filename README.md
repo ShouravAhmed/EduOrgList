@@ -10,8 +10,9 @@ The purpose of this repository is to provide a solution to collect as much as po
 
 * [x] https://www.4icu.org/
   * [uniRank](https://www.4icu.org/) is the leading international higher education directory and search engine featuring reviews and rankings of over 13,800 officially recognized Universities and Colleges in 200 countries.
-  * <u>Solutional</u>
-      * `https://www.4icu.org/reviews/index2.htm`
+  * <u>Possible solutions</u>
+    * `https://www.4icu.org/reviews/index2.htm` to `index2.htm` this 26 page contain the name and country of all these universities, which can collect simply by scraping. But these doesn't contain detailed information.
+    * sdf
 * [x] https://codeforces.com/ratings Organizarion list of codeforces.com
 * [x] https://banbeis.portal.gov.bd/ Educational institutes of Banngladesh.
 * [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search. [Public API]
