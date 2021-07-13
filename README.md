@@ -9,7 +9,8 @@ The purpose of this repository is to provide a solution to collect as much as po
 ### Resource used and their details and solution
 
 * [x] https://www.4icu.org/
-  * [https://www.4icu.org/](uniRank) is the leading international higher education directory and search engine featuring reviews and rankings of over 13,800 officially recognized Universities and Colleges in 200 countries. https://www.4icu.org/reviews/index2.htm
+  * [uniRank](https://www.4icu.org/) is the leading international higher education directory and search engine featuring reviews and rankings of over 13,800 officially recognized Universities and Colleges in 200 countries.
+  * `https://www.4icu.org/reviews/index2.htm`
 * [x] https://codeforces.com/ratings Organizarion list of codeforces.com
 * [x] https://banbeis.portal.gov.bd/ Educational institutes of Banngladesh.
 * [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search. [Public API]
