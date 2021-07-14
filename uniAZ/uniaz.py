@@ -2,6 +2,7 @@ import os
 import json
 import sys
 import csv
+import time
 
 projectPath = os.path.normpath(os.getcwd() + os.sep + os.pardir)
 sys.path.append(projectPath)
@@ -12,15 +13,19 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 
 
-uniData = dict()
+urlList = dict()
+finalData = dict()
+
+totalProcessed = 0
+processLap = 0
 
 class allUniversityData(ots.one_time_scraper):
     def __init__(self):
         super().__init__()
-        self.url = "https://www.4icu.org/reviews/index"
+        self.url = ""
 
-    def getData(self, pageNo):
-        self.url = self.url + str(pageNo) + ".htm"
+    def getUrl(self, pageNo):
+        self.url = "https://www.4icu.org/reviews/index" + str(pageNo) + ".htm"
         self.fetch(self.url)
 
         unis = self.bts.find('table')
@@ -30,78 +35,215 @@ class allUniversityData(ots.one_time_scraper):
             try:
                 td = uni.find_all('td')
                 if(len(td) == 2):
-                    organization = td[0].find('a').text.strip()
-                    organization = organization.split()
-                    organization = ' '.join(organization)
-
-                    try:
-                        country = td[1].find('img')
-                        country = country.attrs['alt']
-                    except:
-                        country = ""
-
-                    uniData[organization] = country
+                    url = 'https://www.4icu.org' + td[0].find('a').attrs['href']
+                    if url not in urlList['url']:
+                        urlList['url'][url] = False
             except:
                 pass
 
-def saveData():
-    results = list()
-    for (x, y) in uniData.items():
+    def getUniData(self, url):
+        self.url = url
+        self.fetch(self.url)
+        # print("page loaded")
+
+        table = self.bts.find_all('table')
+
+        # local data -----------------------------------------
         d = dict()
-        d['organization'] = x
-        d['country'] = y
-        results.append(d)
 
-    with open('res.csv', 'w') as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=results[0].keys())
-        writer.writeheader()
-        for row in results:
-            writer.writerow(row)
-    print("\nAll data written in 'res.csv' successfully.")
+        try:
+            # ranking --------------------------------------------
+            rank = table[0].find_all('tr')
+            for tr in rank:
+                try:
+                    x = [x.strip() for x in tr.text.strip().split('\n')]
+                    d[x[0].lower()] = ' '.join(x[1:])
+                except Exception as e:
+                    print(e)
 
+            # identity --------------------------------------------
+            identity = table[1].find_all('tr')
+            for i in range(6):
+                try:
+                    title = identity[i].find('th').text
+                    data = identity[i].find('td').text
+                    title = ' '.join([x.strip().lower() for x in title.split()])
+                    data = ' '.join([x.strip() for x in data.split()])
+                    if title not in d and title != 'screenshot':
+                        d[title] = data
+                except:
+                    pass
 
-def saveFinalData():
-    finalResult = list()
-    finalData = {}
-
-    try:
-        with open(projectPath+"/educationalInstituteData.csv", 'r') as csv_file:
-            reader = csv.DictReader(csv_file)
-
-            for row in reader:
-                d = dict(row)
-                finalData[d['organization']] = d['country']
-    except:
-        pass
-
-    for (x, y) in uniData.items():
-        finalData[x] = y
-
-    for (organization, country) in finalData.items():
-        d = {
-            'organization' : organization,
-            'country' : country
-        }
-        finalResult.append(d)
-
-    with open(projectPath+"/educationalInstituteData.csv", 'w') as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=finalResult[0].keys())
-        writer.writeheader()
-        for row in finalResult:
-            writer.writerow(row)
-
-    print("\nFinal data written in 'EduOrgList/educationalInstituteData.csv' successfully.")
-    print("Final dataset size:", len(finalResult))
+            # location --------------------------------------------
+            location = table[2].find_all('tr')
+            for tr in location:
+                try:
+                    x = [x.strip() for x in tr.text.strip().split('\n')]
+                    d[x[0].lower()] = ' '.join(x[1:])
+                except Exception as e:
+                    print(e)
 
 
-def main():
+            # degree available --------------------------------------------
+            try:
+                degreeNames = [' '.join([x.strip().lower() for x in td.text.strip().split('\n')]) for td in table[3].find('thead').find_all('tr')[1].find_all('td')]
+                degreeAvail = [td.find('i').attrs['class'][1].strip() for td in table[3].find('thead').find_all('tr')[2].find_all('td')]
+
+                d['degrees'] = dict()
+                for i in range(len(degreeAvail)):
+                    if degreeAvail[i] == 'd1':
+                        d['degrees'][degreeNames[i]] = list()
+
+                departments = table[3].find('tbody').find_all('tr')
+                for department in departments:
+                    x = department.find_all('td')
+                    name = x[0].find('div').find('a').text.strip()
+                    avabl = [x[i].find('i').attrs['class'][1].strip() for i in range(1, 5)]
+                    for i in range(len(avabl)):
+                        if avabl[i] == 'd1':
+                            d['degrees'][degreeNames[i]].append(name)
+            except Exception as e:
+                print(e)
+
+            # tution fees --------------------------------------------
+            try:
+                label = [' '.join([i.strip() for i in x.text.strip().split()]) for x in table[4].find('thead').find('tr').find_all('th')]
+                local = [x.text.strip() for x in table[4].find('tbody').find_all('tr')[0].find_all('td')]
+                inter = [x.text.strip() for x in table[4].find('tbody').find_all('tr')[1].find_all('td')]
+
+                d['tuition fee'] = dict()
+                for i in range(1, 3):
+                    if label[i] not in d['tuition fee']:
+                        d['tuition fee'][label[i].lower()] = dict()
+                    d['tuition fee'][label[i].lower()][local[0].lower()] = local[i]
+                    d['tuition fee'][label[i].lower()][inter[0].lower()] = inter[i]
+            except Exception as e:
+                print(e)
+
+
+            # addmission ---------------------------------------------
+            try:
+                adinfo = [[x.strip() for x in tr.text.strip().split('\n')] for tr in table[5].find_all('tr')]
+                for i in adinfo:
+                    d[i[0].lower()] = ' '.join(i[1:])
+            except Exception as e:
+                print(e)
+
+            # size and profile ---------------------------------------
+            try:
+                adinfo = [[x.strip() for x in tr.text.strip().split('\n') if x.strip() != ""] for tr in table[6].find_all('tr')]
+                for i in adinfo:
+                    d[i[0].lower()] = ' '.join(i[1:])
+
+                adinfo = [[x.strip() for x in tr.text.strip().split('\n') if x.strip() != ""] for tr in table[7].find_all('tr')]
+                for i in adinfo:
+                    d[i[0].lower()] = ' '.join(i[1:])
+
+            except Exception as e:
+                print(e)
+
+            # Facilities ----------------------------------------------
+            try:
+                adinfo = [[x.strip() for x in tr.text.strip().split('\n') if x.strip() != ""] for tr in table[8].find_all('tr')]
+                for i in adinfo:
+                    d[i[0].lower()] = ' '.join(i[1:])
+
+                adinfo = [[x.strip() for x in tr.text.strip().split('\n') if x.strip() != ""] for tr in table[9].find_all('tr')]
+                for i in adinfo:
+                    d[i[0].lower()] = ' '.join(i[1:])
+
+            except Exception as e:
+                print(e)
+
+            # save data -----------------------------------------------------
+            global finalData
+            finalData['organization'][d["name"]] = d
+            urlList['url'][url] = True
+            global totalProcessed
+            totalProcessed += 1
+
+            # print("data saved")
+
+            # info ----------------------------------------------------------
+            # print(json.dumps(d, indent=2))
+            os.system('clear')
+            print("-------------------------------------")
+            print("Total University loaded:", len(finalData['organization']))
+            print("-------------------------------------")
+
+            # write data ----------------------------------------------------
+            global processLap
+            if int(totalProcessed / 100) > processLap:
+                processLap = int(totalProcessed / 100)
+                with open('urlList.json', 'w') as f:
+                    json.dump(urlList, f, indent=2)
+                with open('finalData.json', 'w') as f:
+                    json.dump(finalData, f, indent=2)
+
+        except Exception as e:
+            print("failed to process data: ", url)
+            print("page data procssing exception:", e)
+
+def fetchData():
+    if len(finalData) == 0:
+        finalData['source'] = "https://www.4icu.org/";
+        finalData['description'] = 'Detaild information of all Universities'
+        finalData['organization'] = dict()
+    # finalData['creation time'] = int(time.time())
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        for url in urlList['url']:
+            if urlList['url'][url] == False:
+                uni = allUniversityData()
+                executor.submit(uni.getUniData, url)
+
+    with open('urlList.json', 'w') as f:
+        json.dump(urlList, f, indent=2)
+    with open('finalData.json', 'w') as f:
+        json.dump(finalData, f, indent=2)
+
+
+def fetchUrl():
+    if len(urlList) == 0:
+        urlList['source'] = "https://www.4icu.org/";
+        urlList['description'] = 'List of urls that contain detaild information of all university'
+        urlList['url'] = dict()
+    # urlList['creation time'] = int(time.time())
+
     with ThreadPoolExecutor(max_workers=10) as executor:
         for i in range(2, 28):
             uni = allUniversityData()
-            executor.submit(uni.getData, i)
+            executor.submit(uni.getUrl, i)
 
-    saveData()
-    saveFinalData()
+    os.system('clear')
+    with open('urlList.json', 'w') as f:
+        json.dump(urlList, f, indent=2)
+
+    print("\n\nTotal", len(urlList['url']), ' university link loded')
+
+def loadData():
+    try:
+        with open('urlList.json', 'r') as f:
+            global urlList
+            urlList = json.load(f)
+    except Exception as e:
+        print('urlList json loading exception:', e)
+
+    try:
+        with open('finalData.json', 'r') as f:
+            global finalData
+            finalData = json.load(f)
+    except Exception as e:
+        print('finalData json loading exception:', e)
+
+def main():
+    loadData()
+    # fetchUrl()
+    fetchData()
+
+
+    # start_time = time.time()
+    # print("Total time took :::: --- %s seconds ---" % (time.time() - start_time))
 
 
 if __name__ == '__main__':
