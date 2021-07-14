@@ -15,8 +15,8 @@ The purpose of this repository is to provide a solution to collect as much as po
     2. In the above mentioned solution we can also fetch link for each of these universities which contain detailed information. But problem is we want to scrape those data we have to call more then 13800 times, 1 call per university. We can make it faster by threading but overall process will be quite slow.
   * Implemented solution
     * `EduOrgList/uniAZ` contain the implementation of possible solution 2.
-    * `uniaz.py` is the scraper, `urlList.json` is the list of detailed info links with is-processed status and `finalData.json` contains all the data fetched so far.
-    * This scraper update the local files after fetching each new 100 university data, `urlList.json` with is-processed status and `finalData.json` new data. So, if scraper crashed fetched data will be safe and after running the scraper again it will start from the same point where it stopped.
+    * `uniaz.py` is the scraper, `urlList.json` contains the list links yet to be process with is-processed status and `finalData.json` contains all the data fetched so far.
+    * This scraper update the local files after fetching each new 100 university data, `urlList.json` with is-processed status for links and `finalData.json` with new data. So, if scraper stop in some point data will be safe and after running the scraper again it will start from the same point where it stopped.
     * Data fetched for each universities are "country rank", "world rank", "name", "acronym", "founded", "motto", "colours", "address", "tel", "fax", "other locations", "degrees", "tuition fee", "gender", "international students", "selection type", "admission rate", "admission office", "student enrollment", "academic staff", "control type", "entity type", "academic calendar", "campus setting", "religious affiliation", "library", "housing", "sport facilities", "financial aids", "study abroad", "distance learning", "academic counseling", "career services" and "institutional hospital" status.
 
 * [x] https://codeforces.com/ratings Organizarion list of codeforces.com
