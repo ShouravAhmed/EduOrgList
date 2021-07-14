@@ -18,9 +18,15 @@ The purpose of this repository is to provide a solution to collect as much as po
     * `uniaz.py` is the scraper, `urlList.json` contains the list links yet to be process with is-processed status and `finalData.json` contains all the data fetched so far.
     * This scraper update the local files after fetching each new 100 university data, `urlList.json` with is-processed status for links and `finalData.json` with new data. So, if scraper stop in some point data will be safe and after running the scraper again it will start from the same point where it stopped.
     * Data fetched for each universities are "country rank", "world rank", "name", "acronym", "founded", "motto", "colours", "address", "tel", "fax", "other locations", "degrees", "tuition fee", "gender", "international students", "selection type", "admission rate", "admission office", "student enrollment", "academic staff", "control type", "entity type", "academic calendar", "campus setting", "religious affiliation", "library", "housing", "sport facilities", "financial aids", "study abroad", "distance learning", "academic counseling", "career services" and "institutional hospital" status.
-
+* [x] https://banbeis.portal.gov.bd/
+  * [BANBEIS](https://banbeis.portal.gov.bd/) is Bangladesh Bureau of Educational Information and Statistics is the only government agency responsible for the collection and dissemination of statistics and information in Bangladesh.
+  * Possible solutions
+    1. Their web site contains school, college, school and college, madrasa, private and public university data in separate `.xlsx` file. We can read all these files using `openpyxl` python module and covert and write the data in more suitable format.
+  * Implemented solution
+    * First all the `.xlsx` files are downloaded and placed into `EduOrgList/bdedu`.
+    * Data scraper is the `bdedu.py`. Using `openpyxl` python module we read all data and write them in `finalData.json` file after formatting. formatting needed to match the json keys other data e.g. `EduOrgList/uniAZ`.
+    * Data available for each organization are "division name", "district name", "thana name", "eiin", "institution name", "village road", "post office", "management", "institution type", "mobile".
 * [x] https://codeforces.com/ratings Organizarion list of codeforces.com
-* [x] https://banbeis.portal.gov.bd/ Educational institutes of Banngladesh.
 * [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search. [Public API]
 
 ### Candidate or probable public resource and API's

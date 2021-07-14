@@ -189,7 +189,7 @@ def fetchData():
         finalData['source'] = "https://www.4icu.org/";
         finalData['description'] = 'Detaild information of all Universities'
         finalData['organization'] = dict()
-    # finalData['creation time'] = int(time.time())
+    finalData['creation time'] = int(time.time())
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         for url in urlList['url']:
@@ -201,6 +201,9 @@ def fetchData():
         json.dump(urlList, f, indent=2)
     with open('finalData.json', 'w') as f:
         json.dump(finalData, f, indent=2)
+    print("\n-------------------------------------")
+    print("Total University data loaded:", len(finalData['organization']))
+    print("-------------------------------------\n")
 
 
 def fetchUrl():
@@ -208,7 +211,7 @@ def fetchUrl():
         urlList['source'] = "https://www.4icu.org/";
         urlList['description'] = 'List of urls that contain detaild information of all university'
         urlList['url'] = dict()
-    # urlList['creation time'] = int(time.time())
+    urlList['creation time'] = int(time.time())
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         for i in range(2, 28):
@@ -219,7 +222,7 @@ def fetchUrl():
     with open('urlList.json', 'w') as f:
         json.dump(urlList, f, indent=2)
 
-    print("\n\nTotal", len(urlList['url']), ' university link loded')
+    print("\n\nTotal", len(urlList['url']), ' url loded\n')
 
 def loadData():
     try:
@@ -238,7 +241,7 @@ def loadData():
 
 def main():
     loadData()
-    # fetchUrl()
+    fetchUrl()
     fetchData()
 
 

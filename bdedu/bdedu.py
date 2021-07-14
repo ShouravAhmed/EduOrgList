@@ -190,6 +190,9 @@ def main():
 
     bdedu.saveFinalData()
 
+    # https://banbeis.portal.gov.bd/sites/default/files/files/banbeis.portal.gov.bd/npfblock/Private%20University.xls
+    # https://banbeis.portal.gov.bd/sites/default/files/files/banbeis.portal.gov.bd/npfblock//Public%20University%202019.xls
+
 
 if __name__ == '__main__':
     main()
