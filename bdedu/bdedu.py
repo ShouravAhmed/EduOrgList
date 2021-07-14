@@ -1,5 +1,5 @@
 import openpyxl
-
+import re
 import json
 import csv
 
@@ -10,13 +10,25 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 
 
+
+finalData = dict()
+
 class bdEduDataCollector():
     # data source
     # https://banbeis.portal.gov.bd/
 
     def __init__(self):
-        self.allData = list()
-        self.shortData = list()
+        self.finalData = dict()
+        self.finalData["source"] = "https://banbeis.portal.gov.bd/"
+        self.finalData["description"] = "Information of each educational institute in Bangladesh"
+        self.finalData["creation time"] = 1626283876
+        self.finalData['organization'] = dict()
+
+    def saveData(self):
+        with open('finalData.json', 'w') as f:
+            json.dump(self.finalData, f, indent=2)
+        print("\ntotal data loaded:", len(self.finalData['organization']))
+
 
     def readSchool(self):
         # data source
@@ -26,7 +38,13 @@ class bdEduDataCollector():
         sheet = sheets['Sheet1']
         rows = sheet.rows
 
-        header = [cell.value for cell in next(rows)]
+        header = [str(cell.value) for cell in next(rows)]
+
+        p = re.compile(r"[^a-zA-Z0-9]")
+        for i in range(len(header)):
+            x = p.split(header[i])
+            x = ' '.join([j.lower().strip() for j in x if x != ''])
+            header[i] = x
 
         for row in rows:
             rowData = [cell.value for cell in row]
@@ -34,8 +52,33 @@ class bdEduDataCollector():
             for i in range(len(rowData)):
                 school[header[i]] = rowData[i]
 
-            self.allData.append(school)
+            d = dict()
+            address = ""
+            if school["vill road"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["vill road"]
+            if school["thana name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["thana name"]
+            if school["district name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["district name"]
+            if school["division name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["division name"]
 
+            d['name'] = ' '.join([x.strip() for x in school["institute name"].split() if x.strip() != ''])
+            d['address'] = address
+            d['country'] = 'Bangladesh'
+            d['tel'] = school['mobile']
+
+            self.finalData['organization'][d['name'].lower()] = d
+
+        self.saveData()
         print("\nschool data fatched!")
 
     def readCollege(self):
@@ -46,17 +89,48 @@ class bdEduDataCollector():
         sheet = sheets['Sheet1']
         rows = sheet.rows
 
-        header = [cell.value for cell in next(rows)]
+        header = [str(cell.value) for cell in next(rows)]
+
+        p = re.compile(r"[^a-zA-Z0-9]")
+        for i in range(len(header)):
+            x = p.split(header[i])
+            x = ' '.join([j.lower().strip() for j in x if x != ''])
+            header[i] = x
 
         for row in rows:
             rowData = [cell.value for cell in row]
-            college = dict()
+            school = dict()
             for i in range(len(rowData)):
-                college[header[i]] = rowData[i]
+                school[header[i]] = rowData[i]
 
-            self.allData.append(college)
+            d = dict()
+            address = ""
+            if school["vill road"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["vill road"]
+            if school["thana name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["thana name"]
+            if school["district name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["district name"]
+            if school["division name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["division name"]
 
-        print("\ncollege data fatched!")
+            d['name'] = ' '.join([x.strip() for x in school["institute name"].split() if x.strip() != ''])
+            d['address'] = address
+            d['country'] = 'Bangladesh'
+            d['tel'] = school['mobile']
+
+            self.finalData['organization'][d['name'].lower()] = d
+
+        self.saveData()
+        print("\nCollege data fatched!")
 
 
     def readMadrasa(self):
@@ -67,17 +141,48 @@ class bdEduDataCollector():
         sheet = sheets['Sheet1']
         rows = sheet.rows
 
-        header = [cell.value for cell in next(rows)]
+        header = [str(cell.value) for cell in next(rows)]
+
+        p = re.compile(r"[^a-zA-Z0-9]")
+        for i in range(len(header)):
+            x = p.split(header[i])
+            x = ' '.join([j.lower().strip() for j in x if x != ''])
+            header[i] = x
 
         for row in rows:
             rowData = [cell.value for cell in row]
-            madrasa = dict()
+            school = dict()
             for i in range(len(rowData)):
-                madrasa[header[i]] = rowData[i]
+                school[header[i]] = rowData[i]
 
-            self.allData.append(madrasa)
+            d = dict()
+            address = ""
+            if school["vill road"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["vill road"]
+            if school["thana name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["thana name"]
+            if school["district name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["district name"]
+            if school["division name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["division name"]
 
-        print("\nmadrasa data fatched!")
+            d['name'] = ' '.join([x.strip() for x in school["institute name"].split() if x.strip() != ''])
+            d['address'] = address
+            d['country'] = 'Bangladesh'
+            d['tel'] = school['mobile']
+
+            self.finalData['organization'][d['name'].lower()] = d
+
+        self.saveData()
+        print("\nMadrasa data fatched!")
 
 
     def readSchoolCollege(self):
@@ -88,110 +193,104 @@ class bdEduDataCollector():
         sheet = sheets['Sheet1']
         rows = sheet.rows
 
-        header = [cell.value for cell in next(rows)]
+        header = [str(cell.value) for cell in next(rows)]
+
+        p = re.compile(r"[^a-zA-Z0-9]")
+        for i in range(len(header)):
+            x = p.split(header[i])
+            x = ' '.join([j.lower().strip() for j in x if x != ''])
+            header[i] = x
 
         for row in rows:
             rowData = [cell.value for cell in row]
-            schoolCollege = dict()
+            school = dict()
             for i in range(len(rowData)):
-                schoolCollege[header[i]] = rowData[i]
+                school[header[i]] = rowData[i]
 
-            self.allData.append(schoolCollege)
-
-        print("\nschool and college data fatched!")
-
-    def processData(self):
-        for i in range(len(self.allData)):
-            for j in self.allData[i]:
-                try:
-                    d = self.allData[i][j]
-                    d = d.replace(',' , ' | ')
-                    d = d.strip()
-                    d = d.split()
-                    d = ' '.join(d)
-                    self.allData[i][j] = d
-                except:
-                    pass
-
-
-    def to_csv_originalData(self):
-        with open('originalData.csv', 'w') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=self.allData[0].keys())
-            writer.writeheader()
-            for row in self.allData:
-                writer.writerow(row)
-        print("\nAll Original data written in 'originalData.csv' successfully.")
-
-    def to_csv_processedData(self):
-        for inst in self.allData:
             d = dict()
-            d["organization"] = str(inst["INSTITUTE_NAME"])
-            d["country"] = "Bangladesh"
-            self.shortData.append(d)
+            address = ""
+            if school["vill road"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["vill road"]
+            if school["thana name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["thana name"]
+            if school["district name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["district name"]
+            if school["division name"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["division name"]
 
-        print("\nTotal", len(self.shortData), " bdEdu Inistitute data loaded.")
+            d['name'] = ' '.join([x.strip() for x in school["institute name"].split() if x.strip() != ''])
+            d['address'] = address
+            d['country'] = 'Bangladesh'
+            d['tel'] = school['mobile']
 
-        with open('res.csv', 'w') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=self.shortData[0].keys())
-            writer.writeheader()
-            for row in self.shortData:
-                writer.writerow(row)
-        print("\nAll data written in 'res.csv' successfully.")
+            self.finalData['organization'][d['name'].lower()] = d
 
-
-    def saveFinalData(self):
-        finalResult = list()
-        finalData = {}
-
-        try:
-            with open(projectPath+"/educationalInstituteData.csv", 'r') as csv_file:
-                reader = csv.DictReader(csv_file)
-
-                for row in reader:
-                    d = dict(row)
-                    finalData[d['organization']] = d['country']
-        except:
-            pass
-
-        for d in self.shortData:
-            finalData[d['organization']] = d['country']
-
-        for (organization, country) in finalData.items():
-            d = {
-                'organization' : organization,
-                'country' : country
-            }
-            finalResult.append(d)
-
-        with open(projectPath+"/educationalInstituteData.csv", 'w') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=finalResult[0].keys())
-            writer.writeheader()
-            for row in finalResult:
-                writer.writerow(row)
-
-        print("\nFinal data written in 'EduOrgList/educationalInstituteData.csv' successfully.")
-        print("Final dataset size:", len(finalResult))
+        self.saveData()
+        print("\nSchool and College data fatched!")
 
 
+    def readTechnical(self):
+
+        sheets = openpyxl.load_workbook('technical.xlsx')
+        sheet = sheets['Sheet 1']
+        rows = sheet.rows
+
+        header = [str(cell.value) for cell in next(rows)]
+
+        p = re.compile(r"[^a-zA-Z0-9]")
+        for i in range(len(header)):
+            x = p.split(header[i])
+            x = ' '.join([j.lower().strip() for j in x if x != ''])
+            header[i] = x
+
+        for row in rows:
+            rowData = [cell.value for cell in row]
+            school = dict()
+            for i in range(len(rowData)):
+                school[header[i]] = rowData[i]
+
+            d = dict()
+            address = ""
+            if school["upazila thana"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["upazila thana"]
+            if school["district"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["district"]
+            if school["division"] != None:
+                if len(address):
+                    address = address + ', '
+                address = address + school["division"]
+
+            d['name'] = ' '.join([x.strip() for x in school["name"].split() if x.strip() != ''])
+            d['address'] = address
+            d['country'] = 'Bangladesh'
+            d['tel'] = school["mobile"]
+
+            self.finalData['organization'][d['name'].lower()] = d
+
+        self.saveData()
+        print("\nTechnical college data fatched!")
 
 def main():
     bdedu = bdEduDataCollector()
 
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor(max_workers=5) as executor:
         executor.submit(bdedu.readCollege())
         executor.submit(bdedu.readSchool())
         executor.submit(bdedu.readSchoolCollege())
         executor.submit(bdedu.readMadrasa())
-
-    bdedu.processData()
-
-    bdedu.to_csv_originalData()
-    bdedu.to_csv_processedData()
-
-    bdedu.saveFinalData()
-
-    # https://banbeis.portal.gov.bd/sites/default/files/files/banbeis.portal.gov.bd/npfblock/Private%20University.xls
-    # https://banbeis.portal.gov.bd/sites/default/files/files/banbeis.portal.gov.bd/npfblock//Public%20University%202019.xls
+        executor.submit(bdedu.readTechnical())
 
 
 if __name__ == '__main__':

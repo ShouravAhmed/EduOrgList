@@ -41,6 +41,26 @@ class allUniversityData(ots.one_time_scraper):
             except:
                 pass
 
+    def getCountry(self, pageNo):
+        self.url = "https://www.4icu.org/reviews/index" + str(pageNo) + ".htm"
+        self.fetch(self.url)
+
+        unis = self.bts.find('table')
+        unis = unis.find_all('tr')
+
+        for uni in unis:
+            try:
+                td = uni.find_all('td')
+                if(len(td) == 2):
+                    country = td[1].find('img').attrs['alt']
+                    name = td[0].find('a').text.strip()
+                    name = ' '.join([x.strip() for x in name.split()])
+                    name = name.lower()
+                    finalData['organization'][name]['country'] = country
+            except:
+                pass
+
+
     def getUniData(self, url):
         self.url = url
         self.fetch(self.url)
@@ -157,7 +177,7 @@ class allUniversityData(ots.one_time_scraper):
 
             # save data -----------------------------------------------------
             global finalData
-            finalData['organization'][d["name"]] = d
+            finalData['organization'][d["name"].lower()] = d
             urlList['url'][url] = True
             global totalProcessed
             totalProcessed += 1
@@ -184,6 +204,15 @@ class allUniversityData(ots.one_time_scraper):
             print("failed to process data: ", url)
             print("page data procssing exception:", e)
 
+def saveData():
+    with open('urlList.json', 'w') as f:
+        json.dump(urlList, f, indent=2)
+    with open('finalData.json', 'w') as f:
+        json.dump(finalData, f, indent=2)
+    print("\n-------------------------------------")
+    print("Total University data loaded:", len(finalData['organization']))
+    print("-------------------------------------\n")
+
 def fetchData():
     if len(finalData) == 0:
         finalData['source'] = "https://www.4icu.org/";
@@ -196,15 +225,16 @@ def fetchData():
             if urlList['url'][url] == False:
                 uni = allUniversityData()
                 executor.submit(uni.getUniData, url)
+    os.system('clear')
+    saveData()
 
-    with open('urlList.json', 'w') as f:
-        json.dump(urlList, f, indent=2)
-    with open('finalData.json', 'w') as f:
-        json.dump(finalData, f, indent=2)
-    print("\n-------------------------------------")
-    print("Total University data loaded:", len(finalData['organization']))
-    print("-------------------------------------\n")
-
+def fetchCountry():
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        for i in range(2, 28):
+            uni = allUniversityData()
+            executor.submit(uni.getCountry, i)
+    os.system('clear')
+    saveData()
 
 def fetchUrl():
     if len(urlList) == 0:
@@ -219,10 +249,9 @@ def fetchUrl():
             executor.submit(uni.getUrl, i)
 
     os.system('clear')
-    with open('urlList.json', 'w') as f:
-        json.dump(urlList, f, indent=2)
-
     print("\n\nTotal", len(urlList['url']), ' url loded\n')
+
+    saveData()
 
 def loadData():
     try:
@@ -243,11 +272,7 @@ def main():
     loadData()
     fetchUrl()
     fetchData()
-
-
-    # start_time = time.time()
-    # print("Total time took :::: --- %s seconds ---" % (time.time() - start_time))
-
+    fetchCountry()
 
 if __name__ == '__main__':
     main()
