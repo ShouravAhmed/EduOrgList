@@ -24,7 +24,7 @@ The purpose of this repository is to provide a solution to collect as much as po
     1. Their web site contains school, college, school and college, madrasa, technical college, private and public university data in separate `.xlsx` file. We can read all these files using `openpyxl` python module and covert and write those data in more suitable format.
   * Implemented solution
     * First all the `.xlsx` files are downloaded and placed into `EduOrgList/bdedu`.
-    * Data scraper is the `bdedu.py`. Using `openpyxl` python module we read all data and write them in `finalData.json` file after formatting. formatting needed to match the json data keys with other data-set e.g. `EduOrgList/uniAZ`.
+    * Data scraper is the `bdedu.py`. Using `openpyxl` python module we read all data and write them in `finalData.json` file.
     * Data available for each organization are "name", "address", "country" and "tel".
 * [x] https://codeforces.com/ratings Organizarion list of codeforces.com
 * [x] https://code.org/learn/find-school/json Database that powers the Code.org local school search. [Public API]
