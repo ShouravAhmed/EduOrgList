@@ -34,6 +34,13 @@ The purpose of this repository is to provide a solution to collect as much as po
   * Implemented solution
     * They provide many unnecessary data that doesn't necessary for general propose, so I grabbed necessary data and write them in `finalData.json` in the same format as we did for other sources.
     * Grabbed data are "name", "website", "gender", "student enrollment", "tel", "email", "address" and "country".
+* [x] https://codeforces.com/api/user.ratedLis
+  * [Codeforces](https://codeforces.com/) is a website that hosts competitive programming contests. It has over 600,000 registered users.
+  * Possible solution
+    * Codeforces provide public api access to grab their data. We can fetch all user profile (600000+) data from this api. User profile contain the data of Educational institute or organization the user belong and it's address and country. In this solution problem is the organization name users provided could be imaginary and the address also could be fake. And useful information only can garbed is Organization name, address, country.
+  * Implemented solution
+    * From the API I grabbed the data mentioned above and write them in `finalData.json` in the same format as we did for other sources.
+    * Grabbed data are "name", "address" and "country".
 
 ### Candidate or probable public resource and API's
 
