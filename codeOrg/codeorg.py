@@ -51,12 +51,17 @@ class codeOrgPublicSchoolData():
 
             self.finalData['organization'][d['name'].lower()] = d
 
+    def saveData(self):
+        with open('finalData.json', 'w') as f:
+            json.dump(self.finalData, f, indent=2)
+        print("Total", len(self.finalData['organization']), "data saved in finalData.json")
+
+
+
 def main():
     code = codeOrgPublicSchoolData()
     code.getData()
-    with open('finalData.json', 'w') as f:
-        json.dump(code.finalData, f, indent=2)
-    print("Total", len(code.finalData['organization']), "data saved in finalData.json")
+    code.saveData()
 
 if __name__ == '__main__':
     main()
