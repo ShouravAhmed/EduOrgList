@@ -20,19 +20,24 @@ class codeforces():
 
 
     def getData(self):
-        data = requests.get(self.url, stream=True)
-        print(f"requests status code {data.status_code}\n")
+        try:
+            data = requests.get(self.url, stream=True)
+            print(f"requests status code {data.status_code}\n")
 
-        loaded = 0
+            loaded = 0
 
-        with open('rawData.json', 'wb') as rawData:
-            for chunk in data.iter_content(chunk_size=1024):
-                loaded += 1
-                if chunk:
-                    rawData.write(chunk)
-                os.system('clear')
-                print(loaded, "mb data loaded in rawData.json")
-        print("\nAll data saved in rawData.json successfully!!")
+            with open('rawData.json', 'wb') as rawData:
+                for chunk in data.iter_content(chunk_size=1024):
+                    loaded += 1
+                    if chunk:
+                        rawData.write(chunk)
+                    os.system('clear')
+                    print(loaded, "chunk loaded in rawData.json")
+            print("\nAll data saved in rawData.json successfully!!\n")
+            return True
+        except Exception as e:
+            print("rawData loading exception:", e)
+            return False
 
     def processData(self):
         try:
@@ -41,42 +46,47 @@ class codeforces():
             print("\nrawData.json loaded!!\n")
         except Exception as e:
             print('rawData json loading exception:', e)
-            return
+            return False
 
-        print("---------------------------")
-        print("rawData keys:")
-        print("---------------------------")
-        for i in self.rawData:
-            print(i)
-        print("---------------------------")
-        print("'result' is the list of user profile data:")
-        print("total profile data available is:", len(self.rawData['result']))
-        print("---------------------------")
-        print("First profile sample:")
-        print("---------------------------")
-        print(json.dumps(self.rawData['result'][0], indent=2))
-        print("---------------------------")
+        try:
+            print("---------------------------")
+            print("rawData keys:")
+            print("---------------------------")
+            for i in self.rawData:
+                print(i)
+            print("---------------------------")
+            print("'result' is the list of user profile data:")
+            print("total profile data available is:", len(self.rawData['result']))
+            print("---------------------------")
+            print("First profile sample:")
+            print("---------------------------")
+            print(json.dumps(self.rawData['result'][0], indent=2))
+            print("---------------------------")
 
-        for i in self.rawData['result']:
-            if 'organization' in i and 'country' in i:
-                organization = ' '.join([x.strip() for x in i['organization'].strip().split() if x.strip() != ''])
-                country = ' '.join([x.strip() for x in i['country'].strip().split() if x.strip() != ''])
-                city = country
-                if 'city' in i:
-                    c = ' '.join([x.strip() for x in i['city'].strip().split() if x.strip() != ''])
-                    if c != '':
-                        city = c + ', ' + city
+            for i in self.rawData['result']:
+                if 'organization' in i and 'country' in i:
+                    organization = ' '.join([x.strip() for x in i['organization'].strip().split() if x.strip() != ''])
+                    country = ' '.join([x.strip() for x in i['country'].strip().split() if x.strip() != ''])
+                    city = country
+                    if 'city' in i:
+                        c = ' '.join([x.strip() for x in i['city'].strip().split() if x.strip() != ''])
+                        if c != '':
+                            city = c + ', ' + city
 
-                d = dict()
-                d['name'] = organization
-                d['address'] = city
-                d['country'] = country
+                    d = dict()
+                    d['name'] = organization
+                    d['address'] = city
+                    d['country'] = country
 
-                tmp = organization.split()
+                    tmp = organization.split()
 
-                if len(tmp) > 1 and organization != '' and country != '':
-                    self.finalData['organization'][d['name'].lower()] = d
-        print("\nData processing done.")
+                    if len(tmp) > 1 and organization != '' and country != '':
+                        self.finalData['organization'][d['name'].lower()] = d
+            print("\nData processing done.")
+            return True
+        except Exception as e:
+            print("data processing exception:", e)
+            return False
 
     def saveData(self):
         with open('finalData.json', 'w') as f:
@@ -89,9 +99,10 @@ def main():
     cf = codeforces()
     # it will load a 150+ mb json file
     # uncomment it when need to load rawData.json
-    # cf.getData()
-    cf.processData()
-    cf.saveData()
+    if cf.getData() != True:
+        return
+    if cf.processData():
+        cf.saveData()
 
 if __name__ == '__main__':
     main()

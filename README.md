@@ -40,7 +40,7 @@ The purpose of this repository is to provide a solution to collect as much as po
     * Codeforces provide public api access to grab their data. We can fetch all user profile (600000+) data from this api. User profile contain the data of Educational institute or organization the user belong and it's address and country. In this solution problem is the organization name users provided could be imaginary and the address also could be fake. And useful information only can garbed is Organization name, address, country.
   * Implemented solution
     * From the API I grabbed the data mentioned above and write them in `rawData.json` and after processing it saved the final data in `finalData.json`, in the same format as we did for other sources.
-    * `rawData.json` is not uploded because of this size `150+ mb`.
+    * `rawData.json` is not uploded because of this size `150+ mb`. Here is [Download link](https://drive.google.com/file/d/1GquQxqgedmO_Tut2tAXa5_yBQXT1XyJ3/view?usp=sharing)
     * Grabbed data are "name", "address" and "country". Total valid data grabbed is 7962.
 
 ### Candidate or probable public resource and API's
