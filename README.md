@@ -62,7 +62,61 @@ The purpose of this repository is to provide a solution to collect as much as po
 * [x] https://www.international-schools-database.com/
   * [International Schools Database](https://www.international-schools-database.com/about-us) help people to make one of their most important expat parenting decisions, where to send their children to school. They provide a huge list of schools available all over the world with detailed information. They doesn't provide any API. All these data need to be scraped if needed.
 
-
+* [x] #### Final Data
+  * All the data fatched form each sources are marged in `EduOrgList/finalData.json` using `EduOrgList/margeData.py`.
+  * Data formet is,
+    ```
+    {
+      "source": "",
+      "description": "",
+      "creation time": ,
+      "organization": {
+        "organization name": {
+          "country rank": "",
+          "world rank": "",
+          "name": "",
+          "acronym": "",
+          "founded": "",
+          "address": "",
+          "country": "",
+          "email": "",
+          "tel": "",
+          "fax": "",
+          "degrees": {},
+          "tuition fee": {
+            "undergraduate": {
+              "local students": "",
+              "international students": ""
+            },
+            "postgraduate": {
+              "local students": "",
+              "international students": ""
+            }
+          },
+          "gender": "Men and Women (coed)",
+          "international students": "",
+          "selection type": "",
+          "admission rate": "",
+          "admission office": "",
+          "student enrollment": "",
+          "academic staff": "",
+          "control type": "",
+          "entity type": "",
+          "academic calendar": "",
+          "campus setting": "",
+          "religious affiliation": "",
+          "library": "",
+          "housing": "",
+          "sport facilities": "",
+          "financial aids": "",
+          "study abroad": "",
+          "distance learning": "",
+          "academic counseling": "",
+          "career services": "",
+          "institutional hospital": ""
+        }
+    }
+    ```
 
 ### Other public resource and API's
 
