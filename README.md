@@ -43,9 +43,8 @@ The purpose of this repository is to provide a solution to collect as much as po
     * `rawData.json` is not uploded because of this size `150+ mb`. Here is the `rawData.json` manual [Download link](https://drive.google.com/file/d/1GquQxqgedmO_Tut2tAXa5_yBQXT1XyJ3/view?usp=sharing).
     * Grabbed data are "name", "address" and "country". Total valid data grabbed is 7962.
 
-### Candidate or probable public resource and API's
+### Other public resource and API's
 
-* [x] https://atcoder.jp/ranking/all?page=1 Organizarion list of atcoder.com user
 * [x] https://github.com/EricTendian/colleges-master-list
 * [x] https://github.com/MLH/mlh-policies/blob/master/schools.csv
 * [x] https://raw.githubusercontent.com/Hipo/university-domains-list/master/world_universities_and_domains.json
@@ -57,9 +56,3 @@ The purpose of this repository is to provide a solution to collect as much as po
 * [x] https://collegescorecard.ed.gov/data/documentation/ U.S data.
 
 most of the available API's are only U.S or U.K based and paid, some allow access with limited call.
-
-### Where is the data!
-
-Currently 60000 data are available. You can find all data in /EduOrgList/educationalInstituteData.csv .
-
-To update the data, open cforg, codeOrg, uniAZ, bdedu directories and run cforg.py, codeOrg.py, uniAZ.py, bdedu.py
