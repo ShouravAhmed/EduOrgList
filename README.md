@@ -32,8 +32,8 @@ The purpose of this repository is to provide a solution to collect as much as po
     * We can simply grab the json and take necessary information we need.
     * Data they provide for each school is "name", website", "levels", "format", "format_description", "gender", "description", "languages", "money_needed", "online_only", "number_of_students", "contact_name", "contact_number", "contact_email", "latitude", "longitude", "street", "city", "state", "zip", "published", "updated_at", "country", "source"
   * Implemented solution
-    * They provide many unnecessary data that doesn't for general propose, so I grabbed necessary data and write them in `finalData.json` in the same format as we did for other sources.
-    * Grabbed data are "name", "website", "gender", "number of students", "contact number", "contact email", "address" and "country".
+    * They provide many unnecessary data that doesn't necessary for general propose, so I grabbed necessary data and write them in `finalData.json` in the same format as we did for other sources.
+    * Grabbed data are "name", "website", "gender", "student enrollment", "tel", "email", "address" and "country".
 
 ### Candidate or probable public resource and API's
 
