@@ -18,6 +18,7 @@ The purpose of this repository is to provide a solution to collect as much as po
     * `uniaz.py` is the scraper, `urlList.json` contains the list links yet to be process with is-processed status and `finalData.json` contains all the data fetched so far.
     * This scraper update the local files after fetching each new 100 university data, `urlList.json` with is-processed status for links and `finalData.json` with new data. So, if scraper stop in some point data will be safe and after running the scraper again it will start from the same point where it stopped.
     * Data fetched for each universities are "country rank", "world rank", "name", "acronym", "founded", "motto", "colours", "address", "tel", "fax", "other locations", "degrees", "tuition fee", "gender", "international students", "selection type", "admission rate", "admission office", "student enrollment", "academic staff", "control type", "entity type", "academic calendar", "campus setting", "religious affiliation", "library", "housing", "sport facilities", "financial aids", "study abroad", "distance learning", "academic counseling", "career services" and "institutional hospital" status.
+
 * [x] https://banbeis.portal.gov.bd/
   * [BANBEIS](https://banbeis.portal.gov.bd/) is Bangladesh Bureau of Educational Information and Statistics is the only government agency responsible for the collection and dissemination of statistics and information in Bangladesh. It contains data for total 34917 different institute.
   * Possible solutions
@@ -26,6 +27,7 @@ The purpose of this repository is to provide a solution to collect as much as po
     * First all the `.xlsx` files are downloaded and placed into `EduOrgList/bdedu`.
     * Data scraper is the `bdedu.py`. Using `openpyxl` python module we read all data and write them in `finalData.json` file.
     * Data available for each organization are "name", "address", "country" and "tel".
+
 * [x] https://code.org/learn/find-school/json
   * [Code.org](https://code.org) is a non-profit organization and eponymous website that aims to encourage people, particularly school students to learn computer programming. Code.org provide public JSON access to the database that powers the Code.org local school search. API link is https://code.org/schools.json. Total data available 5314.
   * Possible solutions
@@ -34,6 +36,7 @@ The purpose of this repository is to provide a solution to collect as much as po
   * Implemented solution
     * They provide many unnecessary data that doesn't necessary for general propose, so I grabbed necessary data and write them in `finalData.json` in the same format as we did for other sources.
     * Grabbed data are "name", "website", "gender", "student enrollment", "tel", "email", "address" and "country".
+
 * [x] https://codeforces.com/api/user.ratedLis
   * [Codeforces](https://codeforces.com/) is a website that hosts competitive programming contests. It has over 600,000 registered users.
   * Possible solution
@@ -42,18 +45,24 @@ The purpose of this repository is to provide a solution to collect as much as po
     * From the API I grabbed the data mentioned above and write them in `rawData.json` and after processing it saved the final data in `finalData.json`, in the same format as we did for other sources.
     * `rawData.json` is not uploded because of this size `150+ mb`. Here is the `rawData.json` manual [Download link](https://drive.google.com/file/d/1GquQxqgedmO_Tut2tAXa5_yBQXT1XyJ3/view?usp=sharing).
     * Grabbed data are "name", "address" and "country". Total valid data grabbed is 7962.
+
 * [x] https://github.com/MLH/mlh-policies/blob/master/schools.csv
   * This a List of name of schools, no other information is available. File format is csv. Total data available is 2166.
   * CSV file is parsed and `names` are saved in `EduOrgList/schoolNameOnly` in the same format as we did for sources in `finalData.json`.
+
 * [x] https://github.com/Hipo/university-domains-list
   * This package includes a JSON file that contains domains, names and countries of most of the universities of the world. Data they provide for each university are "web_pages", "name", "alpha_two_code", "state-province", "domains", "country".
   * JSON file link is: https://raw.githubusercontent.com/Hipo/university-domains-list/master/world_universities_and_domains.json
   * Total 9657 data available. This data may overlap with our data fetched in `EduOrgList/uniAZ` data.
   * In `EduOrgList/hipoUniList` directory after processing, these data saved in `finalData.json`, in the same format as we did for other sources. Grabbed data are "name", "website" and "country".
+
 * [x] https://github.com/endSly/world-universities-csv
   * Universities in the US and around the world. Data available is "name", "website", "country abbreviation" in CSV format. These Data are already available in `EduOrgList/uniAZ`.
+
 * [x] https://www.international-schools-database.com/
   * [International Schools Database](https://www.international-schools-database.com/about-us) help people to make one of their most important expat parenting decisions, where to send their children to school. They provide a huge list of schools available all over the world with detailed information. They doesn't provide any API. All these data need to be scraped if needed.
+
+
 
 ### Other public resource and API's
 
@@ -63,4 +72,3 @@ The purpose of this repository is to provide a solution to collect as much as po
 * [x] https://educationdata.urban.org/documentation/ U.S schools.
 * [x] https://collegescorecard.ed.gov/data/documentation/ U.S data.
 
-most of the available API's are only U.S or U.K based and paid, some allow access with limited call.
