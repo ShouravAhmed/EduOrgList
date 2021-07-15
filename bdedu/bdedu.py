@@ -2,6 +2,7 @@ import openpyxl
 import re
 import json
 import csv
+import time
 
 import os
 projectPath = os.path.normpath(os.getcwd() + os.sep + os.pardir)
@@ -21,7 +22,7 @@ class bdEduDataCollector():
         self.finalData = dict()
         self.finalData["source"] = "https://banbeis.portal.gov.bd/"
         self.finalData["description"] = "Information of each educational institute in Bangladesh"
-        self.finalData["creation time"] = 1626283876
+        self.finalData["creation time"] = int(time.time())
         self.finalData['organization'] = dict()
 
     def saveData(self):
