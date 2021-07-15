@@ -99,8 +99,8 @@ def main():
     cf = codeforces()
     # it will load a 150+ mb json file
     # uncomment it when need to load rawData.json
-    if cf.getData() != True:
-        return
+    # if cf.getData() != True:
+    #     return
     if cf.processData():
         cf.saveData()
 
