@@ -63,7 +63,7 @@ The purpose of this repository is to provide a solution to collect as much as po
   * [International Schools Database](https://www.international-schools-database.com/about-us) help people to make one of their most important expat parenting decisions, where to send their children to school. They provide a huge list of schools available all over the world with detailed information. They doesn't provide any API. All these data need to be scraped if needed.
 
 * [x] **Final Data**
-  * All the data fatched form each sources are marged in `EduOrgList/finalData.json` using `EduOrgList/margeData.py`.
+  * All the data grabed form each sources are marged in `EduOrgList/finalData.json` using `EduOrgList/margeData.py`.
   * Total data available now is x.
   * Data formet is,
     ```
