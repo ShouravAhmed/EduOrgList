@@ -2,110 +2,96 @@ import os
 import json
 import sys
 import csv
+import requests
+import time
 
 projectPath = os.path.normpath(os.getcwd() + os.sep + os.pardir)
 sys.path.append(projectPath)
 
-import ots
-
-class cfOrgList(ots.one_time_scraper):
-
+class codeforces():
     def __init__(self):
-        self.rheaders = '''
-            accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
-            accept-encoding: gzip, deflate, br
-            accept-language: en-US,en;q=0.9,bn;q=0.8
-            cache-control: max-age=0
-            cookie: __utmc=71512449; _ga=GA1.2.61060163.1612446062; RCPC=52d90a87c43a3a00a78c5a231904aea9; __atuvc=0%7C14%2C1%7C15%2C0%7C16%2C1%7C17%2C2%7C18; X-User-Sha1=20bc7ef9c29855216001f4be704e3a5ba08f7466; nocturne.language=en; __utmz=71512449.1625203965.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utma=71512449.61060163.1612446062.1625664016.1625667618.8; JSESSIONID=1E33C9ECDFB1C1068220265FC3FD7319-n1; 39ce7=CF5v8KbD; evercookie_cache=wc0z65aq2hgy0kozex; evercookie_etag=wc0z65aq2hgy0kozex; evercookie_png=wc0z65aq2hgy0kozex; 70a7c28f3de=wc0z65aq2hgy0kozex; X-User=3c4bc0630481d0db72fbfda42d418a597fe3201c59141e33df64bba2e2e8240a3a7495ae678b984a; lastOnlineTimeUpdaterInvocation=1625992090766
-            dnt: 1
-            sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"
-            sec-ch-ua-mobile: ?0
-            sec-fetch-dest: document
-            sec-fetch-mode: navigate
-            sec-fetch-site: none
-            sec-fetch-user: ?1
-            upgrade-insecure-requests: 1
-            user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36
-        '''
-        super().__init__()
-        self.url = "https://codeforces.com/ratings"
+        self.finalData = dict()
+        self.finalData["source"] = "https://codeforces.com/api/user.ratedList"
+        self.finalData["description"] = "codeforces.com user profile data"
+        self.finalData["creation time"] = int(time.time())
+        self.finalData['organization'] = dict()
+        self.url = "https://codeforces.com/api/user.ratedList"
+        self.rawData = dict()
 
-    def getOrgList(self):
-        # self.from_html()
-        self.fetch(self.url)
 
-        orgData = self.bts.find("select", {"name":"organizationId"})
-        organizations = orgData.find_all('option')
+    def getData(self):
+        data = requests.get(self.url, stream=True)
+        print(f"requests status code {data.status_code}\n")
 
-        orgList = set()
+        loaded = 0
 
-        for organization in organizations:
-            name = organization.text.strip()
-            if len(name) > 0:
-                if name[0].isalpha():
-                    name = name.split(',')[0].strip()
-                    name = name.split()
-                    name = ' '.join(name)
-                    if len(name) > 3:
-                        orgList.add(name)
+        with open('rawData.json', 'wb') as rawData:
+            for chunk in data.iter_content(chunk_size=1024):
+                loaded += 1
+                if chunk:
+                    rawData.write(chunk)
+                os.system('clear')
+                print(loaded, "mb data loaded in rawData.json")
+        print("\nAll data saved in rawData.json successfully!!")
 
-        orgList = list(orgList)
-        orgList = sorted(orgList)
-
-        print("\n[Total", len(orgList), "Organization data Loaded.]")
-
-        for organization in orgList:
-            d = {
-                'organization' : organization,
-                'country' : ''
-            }
-            self.results.append(d)
-
-        if len(orgList) > 9000:
-            self.to_html()
-
-    def saveFinalData(self):
-        finalResult = list()
-        finalData = {}
-
+    def processData(self):
         try:
-            with open(projectPath+"/educationalInstituteData.csv", 'r') as csv_file:
-                reader = csv.DictReader(csv_file)
+            with open('rawData.json', 'r') as f:
+                self.rawData = json.load(f)
+            print("\nrawData.json loaded!!\n")
+        except Exception as e:
+            print('rawData json loading exception:', e)
+            return
 
-                for row in reader:
-                    d = dict(row)
-                    finalData[d['organization']] = d['country']
-        except:
-            pass
+        print("---------------------------")
+        print("rawData keys:")
+        print("---------------------------")
+        for i in self.rawData:
+            print(i)
+        print("---------------------------")
+        print("'result' is the list of user profile data:")
+        print("total profile data available is:", len(self.rawData['result']))
+        print("---------------------------")
+        print("First profile sample:")
+        print("---------------------------")
+        print(json.dumps(self.rawData['result'][0], indent=2))
+        print("---------------------------")
 
-        for d in self.results:
-            if d['organization'] not in finalData:
-                finalData[d['organization']] = d['country']
+        for i in self.rawData['result']:
+            if 'organization' in i and 'country' in i:
+                organization = ' '.join([x.strip() for x in i['organization'].strip().split() if x.strip() != ''])
+                country = ' '.join([x.strip() for x in i['country'].strip().split() if x.strip() != ''])
+                city = country
+                if 'city' in i:
+                    c = ' '.join([x.strip() for x in i['city'].strip().split() if x.strip() != ''])
+                    if c != '':
+                        city = c + ', ' + city
 
-        for (organization, country) in finalData.items():
-            d = {
-                'organization' : organization,
-                'country' : country
-            }
-            finalResult.append(d)
+                d = dict()
+                d['name'] = organization
+                d['address'] = city
+                d['country'] = country
 
-        with open(projectPath+"/educationalInstituteData.csv", 'w') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=finalResult[0].keys())
-            writer.writeheader()
-            for row in finalResult:
-                writer.writerow(row)
+                tmp = organization.split()
 
-        print("\nFinal data written in 'EduOrgList/educationalInstituteData.csv' successfully.")
-        print("Final dataset size:", len(finalResult))
+                if len(tmp) > 1 and organization != '' and country != '':
+                    self.finalData['organization'][d['name'].lower()] = d
+        print("\nData processing done.")
 
+    def saveData(self):
+        with open('finalData.json', 'w') as f:
+            json.dump(self.finalData, f, indent=2)
+        print("\nself.finalData saved in finalData.json successfully!!")
+        print("\ntotal data:", len(self.finalData['organization']))
 
 
 def main():
-    cf = cfOrgList()
-    cf.getOrgList()
-    cf.to_csv()
-    cf.saveFinalData()
-
+    cf = codeforces()
+    # it will load a 150+ mb json file
+    # uncomment it when need to load rawData.json
+    # cf.getData()
+    cf.processData()
+    cf.saveData()
 
 if __name__ == '__main__':
     main()
