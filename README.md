@@ -65,7 +65,7 @@ The purpose of this repository is to provide a solution to collect as much as po
 * [x] **Final Data**
   * All the data grabed form each sources are marged in `EduOrgList/finalData.json` using `EduOrgList/margeData.py`.
   * Total data available now is 67139.
-  * Data formet is,
+  * Data format is,
     ```
     {
       "source": "",
