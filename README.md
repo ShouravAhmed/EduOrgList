@@ -64,7 +64,7 @@ The purpose of this repository is to provide a solution to collect as much as po
 
 * [x] **Final Data**
   * All the data grabed form each sources are marged in `EduOrgList/finalData.json` using `EduOrgList/margeData.py`.
-  * Total data available now is x.
+  * Total data available now is 67139.
   * Data formet is,
     ```
     {
@@ -126,4 +126,3 @@ The purpose of this repository is to provide a solution to collect as much as po
 * [x] https://www.greatschools.org/api/ U.S. K-12 schools database.
 * [x] https://educationdata.urban.org/documentation/ U.S schools.
 * [x] https://collegescorecard.ed.gov/data/documentation/ U.S data.
-
