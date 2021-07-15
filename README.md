@@ -53,8 +53,7 @@ The purpose of this repository is to provide a solution to collect as much as po
 * [x] https://github.com/endSly/world-universities-csv
   * Universities in the US and around the world. Data available is "name", "website", "country abbreviation" in CSV format. These Data are already available in `EduOrgList/uniAZ`.
 * [x] https://www.international-schools-database.com/
-  * [International Schools Database](https://www.international-schools-database.com/about-us) help people to make one of their most important expat parenting decisions, where to send their children to school. They provide a huge list of schools available all over the world with detailed information. They doesn't provide any API. All these data need to be scraped.
-  * Solution: first we grab all available city name and search for school in each of these cities and garbed all these data. 
+  * [International Schools Database](https://www.international-schools-database.com/about-us) help people to make one of their most important expat parenting decisions, where to send their children to school. They provide a huge list of schools available all over the world with detailed information. They doesn't provide any API. All these data need to be scraped if needed.
 
 ### Other public resource and API's
 

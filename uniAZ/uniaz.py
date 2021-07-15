@@ -239,11 +239,11 @@ def fetchCountry():
     saveData()
 
 def fetchUrl():
-    if len(urlList) == 0:
-        urlList['source'] = "https://www.4icu.org/";
-        urlList['description'] = 'List of urls that contain detaild information of all university'
-        urlList['url'] = dict()
+    urlList['source'] = "https://www.4icu.org/";
+    urlList['description'] = 'List of urls that contain detaild information of all university'
     urlList['creation time'] = int(time.time())
+    if 'url' not in urlList:
+        urlList['url'] = dict()
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         for i in range(2, 28):
