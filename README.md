@@ -52,11 +52,13 @@ The purpose of this repository is to provide a solution to collect as much as po
   * In `EduOrgList/hipoUniList` directory after processing, these data saved in `finalData.json`, in the same format as we did for other sources. Grabbed data are "name", "website" and "country".
 * [x] https://github.com/endSly/world-universities-csv
   * Universities in the US and around the world. Data available is "name", "website", "country abbreviation" in CSV format. These Data are already available in `EduOrgList/uniAZ`.
+* [x] https://www.international-schools-database.com/
+  * [International Schools Database](https://www.international-schools-database.com/about-us) help people to make one of their most important expat parenting decisions, where to send their children to school. They provide a huge list of schools available all over the world with detailed information. They doesn't provide any API. All these data need to be scraped.
+  * Solution: first we grab all available city name and search for school in each of these cities and garbed all these data. 
 
 ### Other public resource and API's
 
 * [x] https://github.com/EricTendian/colleges-master-list
-* [x] https://www.international-schools-database.com/ Data of all international schools in big cities (can be scraped).
 * [x] https://developer.schooldigger.com/ U.S. K-12 schools and district data.
 * [x] https://www.greatschools.org/api/ U.S. K-12 schools database.
 * [x] https://educationdata.urban.org/documentation/ U.S schools.

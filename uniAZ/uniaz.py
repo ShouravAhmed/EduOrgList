@@ -23,6 +23,11 @@ class allUniversityData(ots.one_time_scraper):
     def __init__(self):
         super().__init__()
         self.url = ""
+        finalData['source'] = "https://www.4icu.org/";
+        finalData['description'] = 'Detaild information of all Universities'
+        finalData['creation time'] = int(time.time())
+        if 'organization' not in finalData:
+            finalData['organization'] = dict()
 
     def getUrl(self, pageNo):
         self.url = "https://www.4icu.org/reviews/index" + str(pageNo) + ".htm"
@@ -91,6 +96,9 @@ class allUniversityData(ots.one_time_scraper):
                     data = ' '.join([x.strip() for x in data.split()])
                     if title not in d and title != 'screenshot':
                         d[title] = data
+                    if title == 'screenshot':
+                        website = identity[i].find('a').attrs['href']
+                        d['website'] = website
                 except:
                     pass
 
@@ -214,12 +222,6 @@ def saveData():
     print("-------------------------------------\n")
 
 def fetchData():
-    if len(finalData) == 0:
-        finalData['source'] = "https://www.4icu.org/";
-        finalData['description'] = 'Detaild information of all Universities'
-        finalData['organization'] = dict()
-    finalData['creation time'] = int(time.time())
-
     with ThreadPoolExecutor(max_workers=10) as executor:
         for url in urlList['url']:
             if urlList['url'][url] == False:
