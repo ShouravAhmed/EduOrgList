@@ -43,17 +43,19 @@ The purpose of this repository is to provide a solution to collect as much as po
     * `rawData.json` is not uploded because of this size `150+ mb`. Here is the `rawData.json` manual [Download link](https://drive.google.com/file/d/1GquQxqgedmO_Tut2tAXa5_yBQXT1XyJ3/view?usp=sharing).
     * Grabbed data are "name", "address" and "country". Total valid data grabbed is 7962.
 * [x] https://github.com/MLH/mlh-policies/blob/master/schools.csv
-  * This a List of name of schools, no other information is available. File format is csv. Total data available is 2170.
+  * This a List of name of schools, no other information is available. File format is csv. Total data available is 2166.
+  * CSV file is parsed and `names` are saved in `EduOrgList/schoolNameOnly` in the same format as we did for sources in `finalData.json`.
 * [x] https://github.com/Hipo/university-domains-list
   * This package includes a JSON file that contains domains, names and countries of most of the universities of the world. Data they provide for each university are "web_pages", "name", "alpha_two_code", "state-province", "domains", "country".
   * JSON file link is: https://raw.githubusercontent.com/Hipo/university-domains-list/master/world_universities_and_domains.json
   * Total 9657 data available. This data may overlap with our data fetched in `EduOrgList/uniAZ` data.
   * In `EduOrgList/hipoUniList` directory after processing, these data saved in `finalData.json`, in the same format as we did for other sources. Grabbed data are "name", "website" and "country".
+* [x] https://github.com/endSly/world-universities-csv
+  * Universities in the US and around the world. Data available is "name", "website", "country abbreviation" in CSV format. These Data are already available in `EduOrgList/uniAZ`.
 
 ### Other public resource and API's
 
 * [x] https://github.com/EricTendian/colleges-master-list
-* [x] https://github.com/endSly/world-universities-csv
 * [x] https://www.international-schools-database.com/ Data of all international schools in big cities (can be scraped).
 * [x] https://developer.schooldigger.com/ U.S. K-12 schools and district data.
 * [x] https://www.greatschools.org/api/ U.S. K-12 schools database.
