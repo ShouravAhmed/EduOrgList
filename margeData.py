@@ -20,7 +20,7 @@ def main():
                 print("\nTotal data available in", path, "is :", len(curData['organization']))
 
         except Exception as e:
-            print('finalData json loading exception:', e)
+            print(path+'/finalData.json loading exception:', e)
             continue
 
         for organization in curData['organization']:
