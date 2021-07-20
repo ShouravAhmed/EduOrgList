@@ -88,7 +88,7 @@ def margeBangladeshData():
         json.dump(bdData, f, indent=2)
 
     print("\n--------------------------------")
-    print("Total data saved in bdData.json is:", len(bdData))
+    print("Total Bangladeshi institutes data saved in bdData.json is:", len(bdData))
     print("--------------------------------")
 
 
