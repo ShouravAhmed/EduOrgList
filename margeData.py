@@ -1,7 +1,7 @@
 import json
 import time
 
-def main():
+def margeFinalData():
     finalData = dict()
     finalData['source'] = "https://github.com/ShouravAhmed/EduOrgList";
     finalData['description'] = 'Details of educational institutes'
@@ -42,6 +42,60 @@ def main():
     print("\n----------------------------------------")
     print("Final dataset size:", len(finalData['organization']))
     print("----------------------------------------\n")
+
+def margeBangladeshData():
+    with open("finalData.json", 'r') as f:
+        finalData = json.load(f)
+        bdData = list()
+        for organization in finalData['organization']:
+            try:
+                if finalData['organization'][organization]['country'].strip().lower() == "bangladesh":
+                    organizationData = finalData['organization'][organization]
+                    d = dict()
+                    d['name'] = organizationData['name']
+                    d['city'] = None
+                    d['state'] = None
+                    d['country'] = organizationData['country']
+                    try:
+                        d['website'] = organizationData['website']
+                    except:
+                        d['website'] = None
+
+                    address = organizationData['address']
+                    addressProcessing = address.split(',')
+
+                    if len(addressProcessing) >= 4 and len(addressProcessing[-2].split()) == 1 and len(addressProcessing[-1].split()) == 1:
+                        d['city'] = addressProcessing[-2]
+                        d['state'] = addressProcessing[-1]
+                    else:
+                        addressProcessing = address.split('  ')
+                        try:
+                            state = addressProcessing[-1].split(' ')[-2]
+                            d['state'] = state
+                        except:
+                            pass
+                        try:
+                            city = addressProcessing[-2].split(' ')[-1]
+                            d['city'] = city
+                        except:
+                            pass
+
+                    bdData.append(d)
+            except:
+                pass
+
+    with open('bdData.json', 'w') as f:
+        json.dump(bdData, f, indent=2)
+
+    print("\n--------------------------------")
+    print("Total data saved in bdData.json is:", len(bdData))
+    print("--------------------------------")
+
+
+
+def main():
+    # margeFinalData()
+    margeBangladeshData()
 
 if __name__=='__main__':
     main()
